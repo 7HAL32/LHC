@@ -1,6 +1,6 @@
 = Linear Hamming Code Generator
 
-Not the http://hasthelargehadroncolliderdestroyedtheworldyet.com/[Large Hadron Collider] but a neat tool to generator the linear Hamming Code that is perfect for your needs.
+Not the http://hasthelargehadroncolliderdestroyedtheworldyet.com/[Large Hadron Collider] but a neat tool to generate the linear Hamming Code that is perfect for your needs.
 
 == Simple Usage
 For Frank:
