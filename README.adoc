@@ -1,0 +1,17 @@
+= Linear Hamming Code Generator
+
+Not the http://hasthelargehadroncolliderdestroyedtheworldyet.com/[Large Hadron Collider] but a neat tool to generator the linear Hamming Code that is perfect for your needs.
+
+== Simple Usage
+For Frank:
+[source]
+----
+from lhc_gen import LHC
+code = LHC(5, extended=True) # generate extended Hamming code for source alphabet length 5
+# print generator and parity check matrix
+code.H
+code.G
+# example encoding and decoding
+code.encode(11111)
+code.decode(1111111100)
+----
