@@ -123,10 +123,7 @@ class LHC:
         if t == int:
             print("WARNING, you are using integers for direct input")
             print("Padding with zeros to the necessary length may occur, errors in input length cannot be recognized!")
-            if encoded:
-                length = self.n
-            else:
-                length = self.l
+            length = self.n if encoded else self.l
             word = map(int, str(word).zfill(length))
         elif t is str:
             word = map(int, word)
@@ -177,18 +174,15 @@ class LHC:
             # even parity
             additional_parity = parity(word)
             # remove additional parity bit
-            word = word[0:-1]
+            word = word[:-1]
 
         # check if syndrome is zero by calculating matrix vector product H * w^T
         s = numpy.dot(self.H, numpy.array([word]).transpose()) % 2
-        s_is_zero = numpy.all(s == numpy.zeros((4, 1), dtype=int))
+        s_is_zero = numpy.count_nonzero(s) == 0
 
         if s_is_zero:
-            returned = HCResult.valid
-            if additional_parity:
-                # overall parity bit in error, theoretical correction
-                returned = HCResult.corrected
-            return tuple(word[0:5]), returned
+            # fake "correction" of parity bit or valid
+            return tuple(word[:5]), HCResult.corrected if additional_parity else HCResult.valid
         else:
             # look up syndrome in H
             position = numpy.where(numpy.all(s == self.H, axis=0))
@@ -197,5 +191,6 @@ class LHC:
                 return None, HCResult.uncorrectable
 
             # single error -> correctable
-            word[position[0]] = int(not word[position[0]])
-            return tuple(word[0:5]), HCResult.corrected
+            idx = numpy.squeeze(position[0])
+            word[idx] = int(not word[idx])
+            return tuple(word[:5]), HCResult.corrected

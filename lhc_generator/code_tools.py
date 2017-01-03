@@ -38,10 +38,10 @@ def construct_code(l, ec):
                                                 k number of redundant digits)
     """
     message = "watch out and think about, what you were trying to do here"
-    if l < 1 or ec < 0:
-        raise(ValueError, message)
     if type(l) != int or type(ec) != int:
-        raise(ValueError, message)
+        raise TypeError(message)
+    if l < 1 or ec < 0:
+        raise ValueError(message)
 
     n = l
     while n - needed_redundancy(ec, n) != l:
