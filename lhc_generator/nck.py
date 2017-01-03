@@ -1,3 +1,7 @@
+"""
+Handcrafted with :heart: by Lutz Thies in 2016.
+"""
+
 from operator import mul
 from fractions import Fraction
 from functools import reduce
