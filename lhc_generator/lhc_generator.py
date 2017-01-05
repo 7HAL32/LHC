@@ -179,14 +179,14 @@ class LHC:
         # check if syndrome is zero by calculating matrix vector product H * w^T
         s = numpy.dot(self.H, numpy.array([word]).transpose()) % 2
         s_is_zero = numpy.count_nonzero(s) == 0
-
+        print(s)
         if s_is_zero:
             # fake "correction" of parity bit or valid
             return tuple(word[:5]), HCResult.corrected if additional_parity else HCResult.valid
         else:
             # look up syndrome in H
-            position = numpy.where(numpy.all(s == self.H, axis=0))
-            if not position[0] or not additional_parity:
+            position = numpy.where(numpy.all(s == self.H, axis=0))[0]
+            if position.shape == (0,) or not additional_parity:
                 # multiple errors -> uncorrectable
                 return None, HCResult.uncorrectable
 
